@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cd `dirname $0`
+
+sleep 1
+sudo ./prog.sh ~/orio2.bin
+sleep 1
+./run.sh > /dev/null 2>&1
