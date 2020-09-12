@@ -69,18 +69,22 @@ void spi::dump()
 	if (fd == -1)
 	{
 		printf("spidev: %s\n", spidev.c_str());
-		printf("ERROR: FAILED TO OPEN\n");
+		printf("ERROR: Device not open\n");
 	}
 	else
 	{
-		ioctl(fd, SPI_IOC_RD_MODE, &mode);
-		ioctl(fd, SPI_IOC_RD_BITS_PER_WORD, &bits);
-		ioctl(fd, SPI_IOC_RD_MAX_SPEED_HZ, &speed);
+		uint8_t m;
+		uint8_t b;
+		uint32_t s;
+
+		ioctl(fd, SPI_IOC_RD_MODE, &m);
+		ioctl(fd, SPI_IOC_RD_BITS_PER_WORD, &b);
+		ioctl(fd, SPI_IOC_RD_MAX_SPEED_HZ, &s);
 
 		printf("spidev: %s\n", spidev.c_str());
-		printf("  mode: %d\n", mode);
-		printf("  bits: %d\n", bits);
-		printf(" speed: %d\n", speed);
+		printf("  mode: %d\n", m);
+		printf("  bits: %d\n", b);
+		printf(" speed: %d\n", s);
 	}
 }
 
