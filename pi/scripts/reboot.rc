@@ -2,7 +2,12 @@
 
 cd `dirname $0`
 
-sleep 1
-sudo ./prog.sh ~/orio2.bin
-sleep 1
-./run.sh > /dev/null 2>&1
+FIRMWARE=../../verilog/build/orio2.bin
+
+if [ -f "$FIRMWARE" ]
+then
+	sleep 1
+	sudo ./prog.sh $FIRMWARE
+	sleep 1
+	./run.sh > /dev/null 2>&1
+fi
