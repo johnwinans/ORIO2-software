@@ -1,0 +1,129 @@
+#
+# Pin configuration for ORIO2 Rev 2
+#
+set_io clk25		49		# 25 mhz clock in (onboard oscillator)
+set_io pb[0]		3
+set_io pb[1]		4
+
+set_io led[0]		64
+set_io led[1]		63
+set_io led[2]		62
+set_io led[3]		61
+set_io led[4]		60
+set_io led[5]		56
+set_io led[6]		55
+set_io led[7]		52
+
+# The SPI port uses the same pins as the programming interface
+set_io spi_miso		67
+set_io spi_mosi		68
+set_io spi_sck		70
+#set_io spi_ss		71	# programming interface SSEL input
+set_io spi_ss		73	# alternate application SSEL input
+
+
+set_io quad_a[0]	119
+set_io quad_b[0]	120
+set_io quad_a[1]	121
+set_io quad_b[1] 	122
+set_io quad_a[2]	124
+set_io quad_b[2]	125
+set_io quad_a[3]	129
+set_io quad_b[3]	130
+set_io quad_a[4] 	134
+set_io quad_b[4] 	135
+set_io quad_a[5] 	136
+set_io quad_b[5] 	137
+set_io quad_a[6] 	138
+set_io quad_b[6] 	139
+set_io quad_a[7] 	141
+set_io quad_b[7] 	142
+set_io quad_a[8] 	143
+set_io quad_b[8] 	144
+set_io quad_a[9] 	2
+set_io quad_b[9] 	1
+
+set_io pwm[0] 		94
+set_io pwm[1] 		95
+set_io pwm[2] 		96
+set_io pwm[3] 		97
+set_io pwm[4] 		98
+set_io pwm[5] 		99
+set_io pwm[6] 		101
+set_io pwm[7] 		102
+set_io pwm[8] 		104
+set_io pwm[9] 		105
+set_io pwm[10] 		106
+set_io pwm[11] 		107
+set_io pwm[12] 		110
+set_io pwm[13] 		112
+set_io pwm[14] 		113
+set_io pwm[15] 		114
+
+
+
+set_io dout[0]		7
+set_io dout[1]		8
+set_io dout[2]		9
+set_io dout[3]		10
+set_io dout[4]		11
+set_io dout[5]		12
+set_io dout[6]		15
+set_io dout[7]		16
+
+set_io din[0]		17
+set_io din[1]		18
+set_io din[2]		19
+set_io din[3]		20
+set_io din[4]		21
+set_io din[5]		22
+set_io din[6]		23
+set_io din[7]		24
+
+# switches
+set_io sw[0]		82
+set_io sw[1]		81
+set_io sw[2]		80
+set_io sw[3]		79
+set_io sw[4]		78
+set_io sw[5]		76
+set_io sw[6]		75
+set_io sw[7]		74
+
+# ULN2803A drivers
+set_io sol[0]		93
+set_io sol[1]		91
+set_io sol[2]		90
+set_io sol[3]		88
+set_io sol[4]		87
+set_io sol[5]		85
+set_io sol[6]		84
+set_io sol[7]		83
+
+# SPI port for MCP3008
+set_io spi1_miso	116
+set_io spi1_mosi	117
+set_io spi1_sck		115
+set_io spi1_ss		118
+
+set_io rsl			128
+
+set_io fpga_io[0]	28
+set_io fpga_io[1]	29
+set_io fpga_io[2]	31
+set_io fpga_io[3]	32
+set_io fpga_io[4]	33
+set_io fpga_io[5]	34
+set_io fpga_io[6]	37
+set_io fpga_io[7]	38
+set_io fpga_io[8]	39
+set_io fpga_io[9]	41
+set_io fpga_io[10]	42
+set_io fpga_io[11]	43
+set_io fpga_io[12]	44
+set_io fpga_io[13]	45
+set_io fpga_io[14]	47
+set_io fpga_io[15]	48
+
+set_io fpga_nc[0]	25
+set_io fpga_nc[1]	26
