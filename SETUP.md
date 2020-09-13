@@ -2,10 +2,9 @@
 
 # Install prerequisites
 
-    sudo apt-get install build-essential clang bison flex libreadline-dev \
+    sudo apt install build-essential clang bison flex libreadline-dev \
                     gawk tcl-dev libffi-dev git mercurial graphviz   \
                     xdot pkg-config python python3 libftdi-dev
-
 
 
 # Download the tools
@@ -33,3 +32,8 @@
     make -j$PROCS
     sudo make install
     cd ..
+
+
+# Install verilator if you want to run the Verlog simulation tests
+
+	sudo apt install verilator gtkwave
