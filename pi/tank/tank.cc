@@ -24,8 +24,6 @@
 #include "Joystick.h"
 #include "spi.h"
 
-#define DEBUG_PRINT
-
 #include <stdint.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -114,12 +112,21 @@ static void transfer(
     // 3932 = 1msec
     // 7864 = 2msec
 
-#define PWM_MIN	(3932)
-#define PWM_MAX	(7864)
+	// Due to clock divisor rounding on the FPGA
+	// 65536 ticks = 
+	// 4167 - 1msec
+	// 2083 - 2msec
+
+//#define PWM_MIN	(3932)
+//#define PWM_MAX	(7864)
+
+#define PWM_MIN	(4000)
+#define PWM_MAX	(7000)
 
 	uint16_t val = 0;
 
 	double scale = (PWM_MAX-PWM_MIN)/2.0;
+	//double scale = (PWM_MAX-PWM_MIN);
 	double d;
 
 #if 0
@@ -130,14 +137,14 @@ static void transfer(
 		right = 0.0;
 #endif
 
-	d = (scale+1.0) * left + PWM_MIN;		// scale & align to target positive range
-	printf("left: %f\n", d);
+	d = scale * (left+1.0) + PWM_MIN;		// scale & align to target positive range
+	printf("left: %f => %f\n", left, d);
 	val = d;
 	tx[0] = val >> 8;
 	tx[1] = val & 0x0ff;
 
-	d = (scale+1.0) * right + PWM_MIN;		// scale & align to target positive range
-	printf("right: %f\n", d);
+	d = scale * (right+1.0) + PWM_MIN;		// scale & align to target positive range
+	printf("right: %f => %f\n", right, d);
 	val = d;
 	tx[2] = val >> 8;
 	tx[3] = val & 0x0ff;
