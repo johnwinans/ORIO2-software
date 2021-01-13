@@ -22,25 +22,23 @@
 
 module mcp3004
 	#(
-		parameter SCK_PERIOD=100					// sck divisor: sck = (clk/SCK_PERIOD) (minimum = 2)
+		parameter SCK_PERIOD=100				// sck divisor: sck = (clk/SCK_PERIOD) (minimum = 2)
 	)
 	(
 	input wire	reset,
-	input wire	clk,					
+	input wire	clk,
 	output wire	sck, 
 	output wire	ssel,
 	output wire	mosi,
 	input wire	miso,
 
-	output wire rx_data_tick,											// one clock-wide high indicates transfer complete & rx_data valid
-	//output wire [mcp3004_controller_unit.MCP3004_BIT_WIDTH-1:0] rx_data	// this will remain stable from rx_data_tick until tx_data_tick
+	output wire rx_data_tick,					// one clock-wide high indicates transfer complete & rx_data valid
 	output wire [MCP3004_BIT_WIDTH-1:0] rx_data	// this will remain stable from rx_data_tick until tx_data_tick
-																		// rx_data will be garbage during a transfer
+												// rx_data will be garbage during a transfer
 	);
 
-	localparam MCP3004_BIT_WIDTH = 8*16;			// module message size (8 uint16_t values)
-	//localparam SPI_BIT_WIDTH = mcp3004_controller_unit.MCP3004_BIT_WIDTH;					// SPI buffer size
-	localparam SPI_BIT_WIDTH = 24;					// SPI buffer size
+	localparam MCP3004_BIT_WIDTH = 8*16;		// module message size (8 uint16_t values)
+	localparam SPI_BIT_WIDTH = 24;				// SPI buffer size
 
 	wire spi_tx_data_tick;
 	wire [SPI_BIT_WIDTH-1:0] spi_tx_data;
