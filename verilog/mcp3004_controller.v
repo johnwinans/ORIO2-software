@@ -44,27 +44,27 @@ module mcp3004_controller (
 	localparam SPI_BIT_WIDTH = 24;			// SPI buffer size
 
 
-	reg spi_tx_data_tick_reg, spi_tx_data_tick_next;
+	reg spi_tx_data_tick_reg = 0, spi_tx_data_tick_next;
 	assign spi_tx_data_tick = spi_tx_data_tick_reg;
 
-	reg [SPI_BIT_WIDTH-1:0] spi_tx_data_reg, spi_tx_data_next;
+	reg [SPI_BIT_WIDTH-1:0] spi_tx_data_reg = 0, spi_tx_data_next;
 	assign spi_tx_data = spi_tx_data_reg;
 
 
-	reg rx_data_tick_reg, rx_data_tick_next;
+	reg rx_data_tick_reg = 0, rx_data_tick_next;
 	assign rx_data_tick = rx_data_tick_reg;
 
-	reg [MCP3004_BIT_WIDTH-1:0] rx_data_reg, rx_data_next;
+	reg [MCP3004_BIT_WIDTH-1:0] rx_data_reg = 0, rx_data_next;
 	assign rx_data = rx_data_reg;
 
-	reg [2:0] adc_channel_reg, adc_channel_next;
+	reg [2:0] adc_channel_reg = 0, adc_channel_next;
 
 
 	localparam STATE_WAIT_SPI_BUSY = 0;
 	localparam STATE_START = 1;
 	localparam STATE_WAIT_SPI_RX_DATA_TICK = 2;
 	localparam NUM_STATES = 4;
-	reg [$clog2(NUM_STATES)-1:0] state_reg, state_next;
+	reg [$clog2(NUM_STATES)-1:0] state_reg = STATE_WAIT_SPI_BUSY, state_next;
 
 
 	always @(posedge clk)

@@ -53,16 +53,16 @@ module SPI_master
 	localparam STATE_XACT_HOLD	= 4;
 	localparam NUM_STATES		= 5;
 
-	reg [$clog2(BIT_WIDTH):0] bitcnt_reg, bitcnt_next;		// counts the SPI message length
-	reg [$clog2(SCK_PERIOD)-1:0] sck_div_reg, sck_div_next;		// clock divider for SCK
-	reg [$clog2(NUM_STATES)-1:0] state_reg, state_next;
-	reg [$clog2(SH_REG_MAX)-1:0] sh_reg, sh_next;
+	reg [$clog2(BIT_WIDTH):0] bitcnt_reg = 0, bitcnt_next;		// counts the SPI message length
+	reg [$clog2(SCK_PERIOD)-1:0] sck_div_reg = 0, sck_div_next;		// clock divider for SCK
+	reg [$clog2(NUM_STATES)-1:0] state_reg = STATE_IDLE, state_next = STATE_IDLE;
+	reg [$clog2(SH_REG_MAX)-1:0] sh_reg = 0, sh_next;
 
-	reg [BIT_WIDTH-1:0] rx_data_reg, rx_data_next;				// data read from slave
-	reg [BIT_WIDTH-1:0] tx_data_reg, tx_data_next;				// data written to slave
-	reg rx_data_tick_reg, rx_data_tick_next;
-	reg sck_reg, sck_next;
-	reg ssel_reg, ssel_next;					// Note this is positive logic within this module
+	reg [BIT_WIDTH-1:0] rx_data_reg = 0, rx_data_next;				// data read from slave
+	reg [BIT_WIDTH-1:0] tx_data_reg = 0, tx_data_next;				// data written to slave
+	reg rx_data_tick_reg = 0, rx_data_tick_next;
+	reg sck_reg = 0, sck_next;
+	reg ssel_reg = 1, ssel_next;					// Note this is positive logic within this module
 
 	assign sck = sck_reg;
 	assign ssel = ssel_reg;
