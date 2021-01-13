@@ -107,6 +107,7 @@ set_io spi1_sck		115
 set_io spi1_ss		118
 
 set_io rsl			128
+set_io air			26
 
 set_io fpga_io[0]	28
 set_io fpga_io[1]	29
@@ -125,5 +126,4 @@ set_io fpga_io[13]	45
 set_io fpga_io[14]	47
 set_io fpga_io[15]	48
 
-set_io fpga_nc[0]	25
-set_io fpga_nc[1]	26
+set_io fpga_nc		25

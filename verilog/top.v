@@ -45,7 +45,7 @@
 * 44 uint16_t din				32 uint8_t dout
 *								33 uint8_t leds
 * 46 uint16_t adc0				34 uint8_t sol
-* 48 uint16_t adc1				35 uint8_t rsl
+* 48 uint16_t adc1				35 uint8_t {6'b0,air,rsl}
 * 50 uint16_t adc2
 * 52 uint16_t adc3
 * 54 uint16_t adc4
@@ -61,6 +61,7 @@ module top(
     input wire [1:0]	pb,		// active low reset
 
     output wire			rsl,
+    output wire			air,
     output wire[7:0]	led,
     output wire[7:0]	sol,
     input wire[7:0]		sw,
@@ -77,7 +78,7 @@ module top(
 	output wire			spi1_sck,
 	output wire			spi1_ss,
 
-	input wire [1:0]	fpga_nc,
+	input wire 			fpga_nc,
 	input wire [15:0]	fpga_io,
 
 	input wire [9:0]	quad_a,
@@ -89,22 +90,18 @@ module top(
 
     );
 
-	wire [1:0] fpga_nc_pu;
+	wire fpga_nc_pu;
 	wire [15:0] fpga_io_pu;
 
     genvar i;
 
-    generate
-        for (i = 0; i < 2; i = i + 1) begin: genpwm
-			SB_IO #(
-				.PIN_TYPE(6'b0000_01),	// output = 0, input = 1
-				.PULLUP(1'b1)			// enable the pullup = 1
-			) fpga_nc_pullup (
-				.PACKAGE_PIN(fpga_nc[i]),	// the physical pin number with the pullup on it
-				.D_IN_0(fpga_nc_pu[i])		// an internal wire for this pin
-			);
-        end
-    endgenerate
+	SB_IO #(
+		.PIN_TYPE(6'b0000_01),	// output = 0, input = 1
+		.PULLUP(1'b1)			// enable the pullup = 1
+	) fpga_nc_pullup (
+		.PACKAGE_PIN(fpga_nc),	// the physical pin number with the pullup on it
+		.D_IN_0(fpga_nc_pu)		// an internal wire for this pin
+	);
 
     generate
         for (i = 0; i < 16; i = i + 1) begin: genpwm
@@ -149,7 +146,8 @@ module top(
 	assign dout = pi_rx_data_reg[SPI_MSG_WIDTH-(8*32)-1:SPI_MSG_WIDTH-(8*33)];
 	assign led = pi_rx_data_reg[SPI_MSG_WIDTH-(8*33)-1:SPI_MSG_WIDTH-(8*34)];
 	assign sol = pi_rx_data_reg[SPI_MSG_WIDTH-(8*34)-1:SPI_MSG_WIDTH-(8*35)];
-	assign rsl = pi_rx_data_reg[SPI_MSG_WIDTH-(8*35)-8];								// LSb of the rsl byte
+	assign rsl = pi_rx_data_reg[SPI_MSG_WIDTH-(8*35)-8];								// LSb (bit 0) of the air,rsl byte
+	assign air = pi_rx_data_reg[SPI_MSG_WIDTH-(8*35)-7];								// bit 1 air,rsl byte
 
 	// Establish the main system clock
 	wire clk;
@@ -216,8 +214,7 @@ module top(
 // XXX this needs a tx_buffer to snapshot the tx_data on the falling edge of SSEL  
 
 	wire [6:0] din_nc;
-	//assign din_nc = 0;
-	assign din_nc = {&{fpga_io_pu, fpga_nc_pu}, 6'b0};	// XXX just to use the fpga IO pins to prevent the elimination of the pullups
+	assign din_nc = {&{fpga_io_pu, fpga_nc_pu}, 7'b0};	// XXX just to use the fpga IO pins to prevent the elimination of the pullups
 
 	SPI_slave #( .BIT_WIDTH(SPI_MSG_WIDTH) ) spi(
     	.reset(rst), 
