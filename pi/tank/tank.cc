@@ -85,6 +85,7 @@ static void transfer(
 	double left, 
 	double right, 
 	int rsl,
+	int air,
 	int led0,
 	int led1,
 	int led2,
@@ -149,9 +150,27 @@ static void transfer(
 	tx[2] = val >> 8;
 	tx[3] = val & 0x0ff;
 
-    tx[35] = rsl?1:0;   // lsb = RSL light
+#if 1
+	// just set all the rest of the PWMs to the right joystick value
+	for (int i=2; i<16; ++i)
+	{
+		tx[i*2] = val >> 8;
+		tx[i*2+1] = val & 0x0ff;
+	}
+#endif
 
+
+	// digital out (make same as LEDs for debugging)
+	tx[32] = (led0<<0)|(led1<<1)|(led2<<2)|(led3<<3)|(led4<<4)|(led5<<5)|(led6<<6)|(led7<<7);
+
+	// LEDs
 	tx[33] = (led0<<0)|(led1<<1)|(led2<<2)|(led3<<3)|(led4<<4)|(led5<<5)|(led6<<6)|(led7<<7);
+
+	// solenoids (make same as LEDs for debugging)
+	tx[34] = (led0<<0)|(led1<<1)|(led2<<2)|(led3<<3)|(led4<<4)|(led5<<5)|(led6<<6)|(led7<<7);
+
+    tx[35] = rsl?1:0;		// lsb = RSL light
+    tx[35] |= air?2:0;		// air compressor
 
 
     printf("==========================================================================\n");
@@ -175,17 +194,18 @@ int main(int argc, char *argv[])
 	Joystick js(jsdev);
 	spi s(spidev);
 	
-	int rsl = 0;
-
 	while(1)
     {
 		js.poll();
 
 		struct timeval tv;
 		gettimeofday(&tv, NULL);
-		rsl = (tv.tv_usec / (1000000/8)) % 2;
 
-		transfer(&s, js.getRawAxis(1), js.getRawAxis(4), rsl, 
+		int rsl = (tv.tv_usec / (1000000/8)) % 2;
+		//int rsl = tv.tv_sec % 2;
+		int air = tv.tv_sec % 20;
+
+		transfer(&s, js.getRawAxis(1), js.getRawAxis(4), rsl, air,
 			js.getRawButton(0), 
 			js.getRawButton(1), 
 			js.getRawButton(2), 
