@@ -43,29 +43,37 @@ class spi
 {
 public:
 	/**
+	* Open the given SPI device.
+	* @param devname The name of the SPI port to open.
 	***************************************************************************/
-	spi(const char *devname);
+	spi(const char *devname = "/dev/spidev0.0");
 
 	/**
+	* Close the SPI device.
 	***************************************************************************/
 	~spi();
 
 	/**
+	* @param tx The byte buffer to write to the SPI port
+	* @param rx The byte bufer that is read from the SPI port
+	* @param len The number of bytes to send and receive (tx len bytes & rx len bytes)
+	* @return the value from the low-level ioctl(fd, SPI_IOC_MESSAGE(), ...) call
 	***************************************************************************/
 	int transfer(void *tx, void*rx, size_t len);
 
 	/**
+	* Print a report of the SPI device and its status.
 	***************************************************************************/
 	void dump();
 
 private:
 
-	uint8_t mode = { 0 };
-	uint8_t bits = { 8 };
-	uint32_t speed = { 4000000 };
-	uint16_t delay = { 0 };
-	int fd = { -1 };
-	std::string spidev;
+	uint8_t mode = { 0 };			///< Default SPI mode = 0
+	uint8_t bits = { 8 };			///< Default SPI word size = 8 bits
+	uint32_t speed = { 4000000 };	///< Default SPI speed = 4mhz
+	uint16_t delay = { 0 };			///< How long to delay after the last bit transfer to deselect
+	int fd = { -1 };				///< The file descriptor of the opened SPI device
+	std::string spidev;				///< A saved copy of the opened device name
 };
 
 #endif
