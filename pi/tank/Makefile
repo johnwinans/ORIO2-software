@@ -15,7 +15,8 @@ tank: $(OBJ)
 
 .PHONY: clean
 clean:
-	rm -f $(OBJ) tank dox
+	rm -f $(OBJ) tank 
+	rm -rf dox
 
 .PHONY: dox
 dox:
