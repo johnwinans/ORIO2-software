@@ -89,7 +89,7 @@ void spi::dump()
 int spi::transfer(
 	void *txBuf,
 	void *rxBuf,
-	size_t len
+	uint32_t len
 	)
 {
     struct spi_ioc_transfer tr = {

@@ -59,7 +59,7 @@ public:
 	* @param len The number of bytes to send and receive (tx len bytes & rx len bytes)
 	* @return the value from the low-level ioctl(fd, SPI_IOC_MESSAGE(), ...) call
 	***************************************************************************/
-	int transfer(void *tx, void*rx, size_t len);
+	int transfer(void *tx, void*rx, uint32_t len);
 
 	/**
 	* Print a report of the SPI device and its status.
