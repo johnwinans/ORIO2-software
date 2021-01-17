@@ -24,7 +24,7 @@ module pwm
 	#(
 		parameter CLK_FREQ=(25000000),	// frequency of clk
 		parameter CLK_TICKS=(65536),	// total clock ticks per pwm period
-		localparam PWM_FREQ=(60)		// the PWM period is 60HZ
+		parameter PWM_FREQ=(60)		// the PWM period is 60HZ
 	)
 	(
     input clk,							// system clock running at CLK_FREQ HZ
